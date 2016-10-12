@@ -1,7 +1,7 @@
 class StreetNetwork {
   private HashMap<String, Bus> busses = new HashMap<String, Bus>();
-
-
+  private String[] bulkBusData;
+  private int lastIndex = 0;
   //0 : 1353801605000000   
   //1 : 27   
   //2 : 0   
@@ -44,7 +44,7 @@ class StreetNetwork {
     if (busses.containsKey(busID)) {
       tempBus = busses.get(busID);
     } else {
-      tempBus = new Bus(busID, color(random(255), random(255), random(255)));
+      tempBus = new Bus(busID, color(random(255), random(255), random(255),220));
       busses.put(busID, tempBus);
     }
     //updateLocation(PVector newLocation, float updateStamp, float tDelay, boolean tCongestion ) {
@@ -58,7 +58,34 @@ class StreetNetwork {
   }
 
 
+  void setBulkBusData(String[] tempBulkBusData) {
+    bulkBusData = tempBulkBusData;
+  }
+
   HashMap <String, Bus> getAllBusses() {
     return busses;
   }
+  
+  
+  // Update bus locations from bulk data based on time given 
+  void updateAsOf(long millis) { 
+    println(" :", millis);
+    for (int i=lastIndex; i< bulkBusData.length;i++) {
+      String[] splitData = split(bulkBusData[i].trim(), ",");
+      long dataTimestamp  = Long.parseLong(splitData[0])/1000;
+      //println("Found time: ", dataTimestamp);
+      if (millis >= dataTimestamp) {
+        updateBusByStrings(splitData);
+      } else {
+        print ("Millis :", millis);
+        print (",dataTimestamp :", dataTimestamp);
+        println(",LastIndex: ", lastIndex, "  i:", i); 
+        
+        lastIndex = i;
+        break;
+      }
+    }
+    println("-:", bulkBusData[lastIndex]);
+  }
+  
 }

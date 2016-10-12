@@ -15,6 +15,9 @@ class Bus {
    void updateLocation(PVector newLocation, float updateStamp, float tDelay, boolean tCongestion ) {
      lastLocation = location;
      location = newLocation;
+     if (lastLocation == null)  {
+       lastLocation = location;
+     }  
      lastUpdated = updateStamp;
      delay = tDelay;
      congestion = tCongestion;

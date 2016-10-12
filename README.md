@@ -1,7 +1,7 @@
 # DublinBus
 A Processing sketch for animating bus activity from Dublin public data.
 
-With help and explanation of Data from Hania Al-Hamadو University of Melbourne.
+With help and explanation of Data from Hania Alhamad, University of Melbourne.
 
 This Sketch is written in Processing 3.2.1.
 

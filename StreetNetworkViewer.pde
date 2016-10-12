@@ -1,4 +1,4 @@
-class StreetNetworkViewer {
+class StreetNetworkViewer { //<>//
   PImage backgroundMap;        // OpenStreetMap. 
   MapProjection projection;
   PVector tlCorner;
@@ -32,24 +32,38 @@ class StreetNetworkViewer {
   }
 
 
-  private void drawBus(Bus bus) { //<>//
+  private void drawBus(Bus bus) {
     beginShape();
     stroke(bus.busColor);
     if (bus.congestion) {
       strokeWeight(22);
     } else {
-      strokeWeight(10);
+      strokeWeight(3);
     }
-    noFill();
+
 
     PVector screenCoord = geoToScreen(
       projection.transformCoords(bus.getLocation())
       );
 
-    line(screenCoord.x, screenCoord.y, screenCoord.x, screenCoord.y);
+    PVector previousScreenCoord =  geoToScreen(
+      projection.transformCoords(bus.lastLocation)
+      );
+
+    if (
+      (abs( previousScreenCoord.x-screenCoord.x) + abs(previousScreenCoord.y-screenCoord.y))
+      > 600 ) {
+      previousScreenCoord = screenCoord;
+    }
+    line(previousScreenCoord.x, previousScreenCoord.y, screenCoord.x, screenCoord.y);
+    fill(0);
+    ellipse(screenCoord.x, screenCoord.y, 10, 10);
     endShape();
   }
 
+
+  // Author Jo Wood, giCentre, City University London.
+  // http://www.gicentre.net/utils/mapprojection
   private PVector geoToScreen(PVector geo)
   {
     return new PVector(map(geo.x, tlCorner.x, brCorner.x, 0, drawWidth), 

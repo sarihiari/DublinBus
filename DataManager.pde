@@ -1,4 +1,4 @@
-class DataManager {
+class DataManager { //<>// //<>//
   String dataFile;
   BufferedReader reader;
 
@@ -14,6 +14,7 @@ class DataManager {
 
   String[] getMoreData() {
     try {
+
       line = reader.readLine();
     } 
     catch (IOException e) {
@@ -37,5 +38,38 @@ class DataManager {
       //println();
       return geoCoord;
     }
+  }
+
+  long getTimeStamp(String dataLine) {
+    String[] splitData = split(dataLine.trim(), ",");
+    return Long.parseLong(splitData[0]);
+  }
+
+  String[] getBulkData(int numberOfLines) {
+    String busData[] = new String[numberOfLines];
+    int n=0;
+    try {
+      for (n=0; n<numberOfLines; n++) {
+        busData[n] = reader.readLine();
+        if (busData[n] == null) { //Exception not firing at end of file
+          break;
+        }
+      }
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+      String[] partial = new String[n];
+      arrayCopy(busData, partial, n);
+      return partial;
+    }
+
+
+    if (busData[n] == null) { //Exception is not firing at end of file
+      String[] partial = new String[n];
+      arrayCopy(busData, partial, n);
+      return partial;
+    }
+
+    return busData;
   }
 }
