@@ -55,6 +55,12 @@ class DataManager { //<>// //<>//
           break;
         }
       }
+
+      if (busData[n] == null) { //Exception is not firing at end of file
+        String[] partial = new String[n];
+        arrayCopy(busData, partial, n);
+        return partial;
+      }
     } 
     catch (Exception e) {
       e.printStackTrace();
@@ -64,11 +70,7 @@ class DataManager { //<>// //<>//
     }
 
 
-    if (busData[n] == null) { //Exception is not firing at end of file
-      String[] partial = new String[n];
-      arrayCopy(busData, partial, n);
-      return partial;
-    }
+
 
     return busData;
   }
